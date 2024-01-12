@@ -6,6 +6,7 @@
 #include <SDL2/SDL_mouse.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_scancode.h>
+#include <cmath>
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -52,6 +53,8 @@ int main(int argc, char *argv[]){
     double plane_y = 0.66;
     double time = 0;
     double oldtime = 0;
+    double movespeed = 0.05;
+    double rot_speed = 0.1;
 
     //Inicializa el SLD
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -63,7 +66,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    SDL_Renderer *render = SDL_CreateRenderer(Window, -1, SDL_RENDERER_PRESENTVSYNC);
+    SDL_Renderer *render = SDL_CreateRenderer(Window, -1, 0);
 
      if(render == NULL){
         std::cout << "SDL Render Failed To Initialise " << SDL_GetError() << std::endl;
@@ -73,14 +76,43 @@ int main(int argc, char *argv[]){
     SDL_Event WindowEvent;
 
     while(true){
+ 
+        if(SDL_PollEvent(&WindowEvent)){   
+            if(SDL_QUIT == WindowEvent.type){ break; }
+            
+            if(WindowEvent.type == SDL_KEYDOWN){
+                if(WindowEvent.key.keysym.sym == SDLK_w){
+                    if(Map[int (pos_x + dir_x * movespeed)][int(pos_y)] == false) { pos_x += dir_x * movespeed; }
+                    if(Map[int (pos_x)][int(pos_y + dir_y * movespeed)] == false) { pos_y += dir_y * movespeed; }
+                }
+
+                if(WindowEvent.key.keysym.sym == SDLK_s){
+                    if(Map[int (pos_x - dir_x * movespeed)][int(pos_y)] == false) { pos_x -= dir_x * movespeed; }
+                    if(Map[int (pos_x)][int(pos_y - dir_y * movespeed)] == false) { pos_y -= dir_y * movespeed; }
+                }
+                if(WindowEvent.key.keysym.sym == SDLK_a){
+                    double old_dir_x = dir_x;
+                    dir_x = dir_x * cos(rot_speed) - dir_y * sin(rot_speed);
+                    dir_y = old_dir_x * sin(rot_speed) + dir_y * cos(rot_speed);
+                    double old_plane_x = plane_x;
+                    plane_x = plane_x * cos(rot_speed) - plane_y * sin(rot_speed);
+                    plane_y = old_plane_x * sin(rot_speed) + plane_y * cos(rot_speed); 
+                }
+                if(WindowEvent.key.keysym.sym == SDLK_d){
+                    double old_dir_x = dir_x;
+                    dir_x = dir_x * cos(-rot_speed) - dir_y * sin(-rot_speed);
+                    dir_y = old_dir_x * sin(-rot_speed) + dir_y * cos(-rot_speed);
+                    double old_plane_x = plane_x;
+                    plane_x = plane_x * cos(-rot_speed) - plane_y * sin(-rot_speed);
+                    plane_y = old_plane_x * sin(-rot_speed) + plane_y * cos(-rot_speed); 
+                }
+            } 
+            
+        }
 
         SDL_SetRenderDrawColor(render, 50, 50, 50, 255);
         SDL_RenderClear(render);
-
-        if (SDL_PollEvent(&WindowEvent)) {
-            if(SDL_QUIT == WindowEvent.type){ break; }
-        }
-
+        
         for(int x = 0; x < WIDTH; x++){
             double camera_x = 2 * x / double(WIDTH) - 1;
             double ray_dir_x = dir_x + plane_x * camera_x;
