@@ -164,7 +164,8 @@ void Game::Input(){
 void Game::Render(){
     SDL_SetRenderDrawColor(_Render, 50, 50, 50, 255);
     SDL_RenderClear(_Render);
-    
+     
+    // Walls
     for(int x = 0; x < WIDTH; x++){
             double camera_x = 2 * x / double(WIDTH) - 1;
             double ray_dir_x = dir_x + plane_x * camera_x;
