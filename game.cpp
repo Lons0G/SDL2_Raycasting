@@ -119,43 +119,21 @@ void Game::Input(){
         case SDL_QUIT:
             _Running = false;
             break;
+        
         case SDL_KEYDOWN:
-            if(event.key.keysym.sym == SDLK_w){
-                //if(Map[int (pos_x + dir_x * movespeed)][int(pos_y)] == false) { pos_x += dir_x * movespeed; }
-                //if(Map[int (pos_x)][int(pos_y + dir_y * movespeed)] == false) { pos_y += dir_y * movespeed; }
-                //std::cout << "Key W" << std::endl;
-                forward = true;
-            }else if(event.key.keysym.sym == SDLK_s){
-                //if(Map[int (pos_x - dir_x * movespeed)][int(pos_y)] == false) { pos_x -= dir_x * movespeed; }
-                //f(Map[int (pos_x)][int(pos_y - dir_y * movespeed)] == false) { pos_y -= dir_y * movespeed; }
-                //std::cout << "Key S" << std::endl;
-                backward = true;
-            }else if(event.key.keysym.sym == SDLK_a){
-                //double old_dir_x = dir_x;
-                //dir_x = dir_x * cos(rot_speed) - dir_y * sin(rot_speed);
-                //dir_y = old_dir_x * sin(rot_speed) + dir_y * cos(rot_speed);
-                //double old_plane_x = plane_x;
-                //plane_x = plane_x * cos(rot_speed) - plane_y * sin(rot_speed);
-                //plane_y = old_plane_x * sin(rot_speed) + plane_y * cos(rot_speed); 
-                //std::cout << "Key A" << std::endl;
-                left = true;
-            }else if(event.key.keysym.sym == SDLK_d){
-                //double old_dir_x = dir_x;
-                //dir_x = dir_x * cos(-rot_speed) - dir_y * sin(-rot_speed);
-                //dir_y = old_dir_x * sin(-rot_speed) + dir_y * cos(-rot_speed);
-                //double old_plane_x = plane_x;
-                //plane_x = plane_x * cos(-rot_speed) - plane_y * sin(-rot_speed);
-                //plane_y = old_plane_x * sin(-rot_speed) + plane_y * cos(-rot_speed); 
-                //std::cout << "Key D" << std::endl;
-                right = true;
-            }
+            if(event.key.keysym.sym == SDLK_w){ forward = true; }
+            else if(event.key.keysym.sym == SDLK_s){ backward = true; }
+            else if(event.key.keysym.sym == SDLK_a){ left = true; }
+            else if(event.key.keysym.sym == SDLK_d){ right = true;}
             break;
+
             case SDL_KEYUP:
                 if(event.key.keysym.sym == SDLK_w){ forward = false; }
                 if(event.key.keysym.sym == SDLK_s){ backward = false; }
                 if(event.key.keysym.sym == SDLK_a){ left = false; }
                 if(event.key.keysym.sym == SDLK_d){ right = false; }
                 break;
+        
         default:
             break;
     }
