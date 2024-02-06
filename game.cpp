@@ -9,8 +9,8 @@ Game::~Game(){
 }
 
 int contador = 0;
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 640
+#define HEIGHT 480
 #define MAP_SIZE 24
 
 int RED = 0;
@@ -50,8 +50,7 @@ double dir_x = -1;
 double dir_y = 0;
 double plane_x = 0;
 double plane_y = 0.66;
-//double _time = 0.0;
-//double oldtime = 0.0;
+
 double movespeed = 0.05;
 double rot_speed = 0.05;
 bool forward = false;
@@ -142,7 +141,7 @@ void Game::Input(){
 void Game::Render(){
     SDL_SetRenderDrawColor(_Render, 50, 50, 50, 255);
     SDL_RenderClear(_Render);
-     
+
     // Walls
     for(int x = 0; x < WIDTH; x++){
             double camera_x = 2 * x / double(WIDTH) - 1;
@@ -201,7 +200,7 @@ void Game::Render(){
             int start_draw = -line_height / 2 + HEIGHT / 2;
             if(start_draw < 0){ start_draw = 0; }
             int end_draw = line_height / 2 + HEIGHT / 2;
-            if(end_draw < 0){ end_draw = HEIGHT - 1; }\
+            if(end_draw < 0){ end_draw = HEIGHT - 1; }
 
             switch (Map[map_x][map_y]) {
             case 1:
@@ -238,8 +237,7 @@ void Game::Render(){
             }
 
             SDL_SetRenderDrawColor(_Render, RED, GREEN, BLUE, 255);
-            SDL_RenderDrawLine(_Render, x, start_draw, x, end_draw);
-            
+            SDL_RenderDrawLine(_Render, x, start_draw, x, end_draw); 
         }
 
 
